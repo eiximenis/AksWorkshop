@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sql
+spec:
+  template:
+    metadata:
+      labels:
+        app: aksworksop
+        component: sql
+    spec:
+      containers:
+      - name: sql
+        image: microsoft/mssql-server-linux:2017-latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: SA_PASSWORD
+          value: Pass@word1
+        - name: ACCEPT_EULA
+          value: "Y"
+        ports:
+        - containerPort: 1433

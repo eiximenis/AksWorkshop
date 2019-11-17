@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option csharp_namespace = "BeerBook.Basket.Proto";
+
+package BasketApi;
+
+message UserBasketRequest {
+	string user = 1;
+}
+
+
+message UpdateUserBasketRequest {
+	string user = 1;
+	int32 beerId = 2;
+}
+
+message BasketResponse {
+	string user = 1;
+	repeated int32 beers=2;
+}
+
+message BasketDeletedResponse {
+	bool deleted = 1;
+}
+
+message EmptyResponse {}
+
+service Basket {
+	rpc GetByUser(UserBasketRequest) returns (BasketResponse) { }
+	rpc DeleteByUser(UserBasketRequest) returns (BasketDeletedResponse) { }
+	rpc UpdateFromUser(UpdateUserBasketRequest) returns (EmptyResponse) { }  
+}
+

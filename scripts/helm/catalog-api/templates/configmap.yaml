@@ -1,0 +1,15 @@
+{{- $name := include "aw-catalog.fullname" . -}}
+
+{{- if .Values.configmap -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "cfg-{{ $name }}"
+  labels:
+    app: {{ template "aw-catalog.name" . }}
+    chart: {{ template "aw-catalog.chart" .}}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  constr: {{ .Values.catalog.constr }}
+{{- end -}}

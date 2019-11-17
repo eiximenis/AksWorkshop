@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: basket
+spec:
+  template:
+    metadata:
+      labels:
+        app: aksworksop
+        component: basket
+    spec:
+      containers:
+      - name: basket
+        image: testeduacr.azurecr.io/basket
+        imagePullPolicy: Always
+        env:
+        - name: constr
+          value: mongodb://mongo
+        - name: PATH_BASE
+          value: /basket-api
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: acr-key

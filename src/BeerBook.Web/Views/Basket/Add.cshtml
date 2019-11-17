@@ -1,0 +1,20 @@
+﻿@model BeerBook.Web.Models.AddBasketViewModel
+
+@{
+    ViewData["Title"] = "Add";
+}
+
+<h1>Add @Model.BeerToAdd.Name to Basket</h1>
+
+<p>Current basket has @Model.CurrentBasket.Beers.Count() beers on it</p>
+
+<partial name="_BeerDetails" model="@Model.BeerToAdd" />
+
+<form asp-action="AddBeer" method="post">
+    <p>Confirm you want to add this beer:</p>
+    <input type="submit" class="active, btn, btn-info" />
+</form>
+
+
+
+

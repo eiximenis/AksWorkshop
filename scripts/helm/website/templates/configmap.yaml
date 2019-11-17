@@ -1,0 +1,17 @@
+{{- $name := include "aw-website.fullname" . -}}
+
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "cfg-{{ $name }}"
+  labels:
+    app: {{ template "aw-website.name" . }}
+    chart: {{ template "aw-website.chart" .}}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  urls__basket: http://basket
+  urls__catalog: http://catalog
+  urls__order: http://order
+  urls__basketGrpc: http://basket:81

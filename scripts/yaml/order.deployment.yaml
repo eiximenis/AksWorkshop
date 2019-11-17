@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: order
+spec:
+  template:
+    metadata:
+      labels:
+        app: aksworksop
+        component: order
+    spec:
+      containers:
+      - name: order
+        image: testeduacr.azurecr.io/order
+        imagePullPolicy: Always
+        env:
+        - name: constr
+          value: Server=sql;Database=beerbook-order;User Id=sa;Password=Pass@word1
+        - name: PATH_BASE
+          value: /order-api          
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: acr-key

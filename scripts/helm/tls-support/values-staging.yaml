@@ -1,0 +1,10 @@
+applicationName: aksworkshop
+issuerName: letsencrypt-staging
+certName: aksws-cert-staging
+environment: staging
+server: https://acme-staging-v02.api.letsencrypt.org/directory
+certSecretName: aksws-letsencrypt-staging
+issuerSecretName: letsencrypt-staging
+ingressClass: addon-http-application-routing
+
+#domain: Domain to use

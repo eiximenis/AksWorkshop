@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  apiserver:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+
+  webclient:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ApiUrl=http://apiserver
+    ports:
+      - "80"
+

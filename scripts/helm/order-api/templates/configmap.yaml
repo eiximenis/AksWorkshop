@@ -1,0 +1,15 @@
+{{- $name := include "aw-order.fullname" . -}}
+
+{{- if .Values.configmap -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "cfg-{{ $name }}"
+  labels:
+    app: {{ template "aw-order.name" . }}
+    chart: {{ template "aw-order.chart" .}}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  constr: {{ .Values.order.constr }}
+{{- end -}}

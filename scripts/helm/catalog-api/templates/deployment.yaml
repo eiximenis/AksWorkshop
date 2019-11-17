@@ -1,0 +1,96 @@
+{{- $name := include "aw-catalog.fullname" . -}}
+{{- $cfgname := printf "%s-%s" "cfg" $name -}}
+{{- $scrname := printf "%s-%s" "scr" $name -}}
+
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "aw-catalog.fullname" . }}
+  labels:
+    app: {{ template "aw-catalog.name" . }}
+    chart: {{ template "aw-catalog.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "aw-catalog.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "aw-catalog.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      {{ if .Values.imagePullSecrets -}}
+      imagePullSecrets:
+      {{ range .Values.imagePullSecrets -}}
+        - name: {{ .name }}
+      {{- end -}}
+      {{- end }}
+      {{- if .Values.keyVault }}
+      volumes:
+      - name: my-kv
+        flexVolume:
+          driver: "azure/kv"
+          secretRef:
+            name: keyvaultreader               
+          options:
+            keyvaultname: {{ .Values.keyVault.Name }}
+            keyvaultobjectnames: {{ .Values.keyVault.secrets }}
+            keyvaultobjecttypes: {{ .Values.keyVault.secretsTypes }}
+            resourcegroup: {{ .Values.keyVault.resourceGroup }}
+            subscriptionid: {{ .Values.keyVault.azureSubsId }}
+            tenantid: {{ .Values.keyVault.tenantId }}
+      {{- end }}      
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{ if .Values.keyVault -}}
+          volumeMounts:
+          - name: my-kv
+            mountPath: /kv-data
+            readOnly: true          
+          {{- end }}      
+          {{- if .Values.configmap }}
+          envFrom:
+          - configMapRef:
+              name: {{ $cfgname }}
+          {{- end }}              
+          env:
+          {{- if .Values.env.values -}}
+          {{- range .Values.env.values }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+          {{- end -}}
+          {{- end -}}
+          {{- if .Values.env.secretmap -}}
+          {{- range .Values.env.secretmap }}
+            - name: {{ .name }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $scrname }}
+                  key: {{ .name }}
+          {{- end -}}
+          {{- end }}                 
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+

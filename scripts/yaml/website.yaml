@@ -1,0 +1,42 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: website
+spec:
+  template:
+    metadata:
+      labels:
+        app: aksworksop
+        component: website
+    spec:
+      containers:
+      - name: website
+        image: testeduacr.azurecr.io/website
+        imagePullPolicy: Always
+        env:
+        - name: urls__basket
+          value: http://basket
+        - name: urls__catalog
+          value: http://catalog
+        - name: urls__order
+          value: http://order
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: acr-key
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: aksworksop
+    component: website
+  name: website
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    name: http
+  selector:
+    app: aksworksop
+    component: website

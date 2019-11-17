@@ -1,0 +1,14 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Issuer
+metadata:
+  name: letsencrypt-staging
+  namespace: default
+  environment: staging
+  app: aksworksop
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: not@used.com
+    privateKeySecretRef:
+      name: ""   # Issuer secret name
+    http01: {}

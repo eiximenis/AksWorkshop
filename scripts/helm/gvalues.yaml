@@ -1,0 +1,24 @@
+basket:
+  constr:  mongodb://mongo
+order:
+  constr: Server=sql;Database=beerbook-order;User Id=sa;Password=Pass@word1
+catalog:
+  constr: Server=sql;Database=beerbook-basket;User Id=sa;Password=Pass@word1
+
+ingress:
+  tls:
+    - secretName: cert-letsencrypt-staging
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+    ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    cert-manager.io/issuer: "letsencrypt-staging"   
+
+imagePullSecrets:
+  - name: acr-key
+
+#keyVault:
+#  Name: testedukeyvault
+#  resourceGroup: test-rg-edu
+#  tenantId: xxxx-xxxxx-xxxx-xxxx
+#  azureSubsId: xxxx-xxxxx-xxxx-xxxx

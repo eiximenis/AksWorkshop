@@ -1,0 +1,40 @@
+version: '3.4'
+
+services:
+  sql:
+    image: microsoft/mssql-server-linux:2017-latest
+
+  mongo:
+    image: mongo:3.4-jessie
+
+  website:
+    image: ${REGISTRY:-beerbook}/website:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: BeerBook.Web/Dockerfile    
+    depends_on:
+      - sql
+
+  basket:
+    image: ${REGISTRY:-beerbook}/basket:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: BeerBook.Basket/Dockerfile    
+    depends_on:
+      - mongo
+
+  catalog:
+    image: ${REGISTRY:-beerbook}/catalog:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: BeerBook.Catalog/Dockerfile
+    depends_on:
+      - sql
+
+  order:
+    image: ${REGISTRY:-beerbook}/order:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: BeerBook.Order/Dockerfile    
+    depends_on:
+      - sql

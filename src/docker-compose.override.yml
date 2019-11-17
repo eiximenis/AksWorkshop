@@ -1,0 +1,43 @@
+version: '3.4'
+
+services:
+  sql:
+    environment:
+      - SA_PASSWORD=Pass@word1
+      - ACCEPT_EULA=Y  
+    ports:
+      - "5433:1433" 
+
+  mongo:
+    ports:
+      - "27017:27017"
+
+  website:
+    environment:
+      - urls__basket=http://basket
+      - urls__basketGrpc=http://basket:81
+      - urls__catalog=http://catalog
+      - urls__order=http://order
+    ports:
+      - "5100:80"
+
+  basket:
+    environment:
+     - constr=mongodb://mongo
+     - GRPC_PORT=81
+     - PORT=80
+    ports:
+      - "5101:80"
+      - "15101:81"
+
+  catalog:
+    environment:
+     - constr=Server=sql;Database=beerbook-basket;User Id=sa;Password=Pass@word1
+    ports:
+      - "5102:80"
+
+  order:
+    environment:
+     - constr=Server=sql;Database=beerbook-order;User Id=sa;Password=Pass@word1
+    ports:
+      - "5103:80"

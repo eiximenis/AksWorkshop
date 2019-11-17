@@ -1,0 +1,34 @@
+replicaCount: 1
+applicationName: aksworkshop
+
+image:
+  repository: basket
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 80
+  grpcPort: 81
+
+ingress:
+  enabled: true
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+configmap: true
+
+env:
+  values:
+    - name: PATH_BASE
+      value: /basket-api
+
+#keyVault:
+#  secrets: basketconstr
+#  secretsTypes: secret

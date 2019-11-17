@@ -1,0 +1,40 @@
+﻿@model BeerBook.Models.Responses.PagedResponse<BeerBook.Models.Responses.BeerListItem>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+
+<div class="table">
+    <h3>Our beers</h3>
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Style</th>
+            <th>Brewery</th>
+            <th></th>
+        </tr>
+
+        @foreach (var beer in Model.Data)
+        {
+            <tr>
+                <td>@beer.Name</td>
+                <td>@beer.Style</td>
+                <td>@beer.BreweryName</td>
+                <td><a asp-action="AddBeer" asp-controller="Basket" asp-route-id="@beer.Id">Add to Cart</a></td>
+            </tr>
+        }
+    </table>
+    <form asp-action="Purchase" asp-controller="Orders">
+        <div class="row">
+            <p><input type="submit" value="Purchase"/></p>
+        </div>
+    </form>
+</div>
+
+

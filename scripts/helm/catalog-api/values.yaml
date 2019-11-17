@@ -1,0 +1,33 @@
+replicaCount: 1
+applicationName: aksworkshop
+
+image:
+  repository: catalog
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+configmap: true
+
+env:
+  values:
+    - name: PATH_BASE
+      value: /catalog-api
+
+#keyVault:
+#  secrets: catalogconstr
+#  secretsTypes: secret

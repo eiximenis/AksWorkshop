@@ -1,0 +1,22 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: cert-staging
+  namespace: default
+  environment: staging
+  app: aksworkshop
+spec:
+  secretName: "" # Certificate secret name
+  issuerRef:
+    name: ""
+    environment: ""
+    app: ""
+  commonName: my.cluster.com
+  dnsNames:
+  - my.cluster.com
+  acme:
+    config:
+    - http01:
+        ingressClass: "" # Put ingress class here
+      domains:
+      - my.cluster.com

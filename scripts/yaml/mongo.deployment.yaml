@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mongo
+spec:
+  template:
+    metadata:
+      labels:
+        app: aksworksop
+        component: mongo
+    spec:
+      containers:
+      - name: mongo
+        image: mongo:3.4-jessie
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 27017

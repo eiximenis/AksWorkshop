@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: catalog
+spec:
+  template:
+    metadata:
+      labels:
+        app: aksworksop
+        component: catalog
+    spec:
+      containers:
+      - name: catalog
+        image: testeduacr.azurecr.io/catalog
+        imagePullPolicy: Always
+        env:
+        - name: constr
+          value: Server=sql;Database=beerbook-basket;User Id=sa;Password=Pass@word1
+        - name: PATH_BASE
+          value: /catalog-api
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: acr-key

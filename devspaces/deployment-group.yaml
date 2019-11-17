@@ -1,0 +1,64 @@
+apiVersion: 2018-06-01
+location: eastus
+name: test-web-api
+properties:
+  volumes:
+  - name: nginxvol
+    azureFile:
+      shareName: testacishare
+      storageAccountName: testacistorage
+      storageAccountKey: 9XcepF96EgI83IqhGhQC6oRUpqjJePP2Jh36Y+J/RRqHtmPrdzwj8S2LigNXzFey6Z8BFelAUyconp7OocrfYA==
+  containers:
+  - name: nginx
+    properties:
+      image: nginx
+      volumeMounts:
+      - name: nginxvol
+        mountPath: /etc/nginx
+      resources:
+        requests:
+          cpu: 1
+          memoryInGb: 1.5
+      ports:
+      - port: 80
+      - port: 443
+  - name: webclient
+    properties:
+      image: testaciedu.azurecr.io/webclient:latest
+      environmentVariables:
+        - name: "ApiUrl"
+          value: "http://localhost:8080"
+        - name: "ASPNETCORE_URLS"
+          value: "http://0.0.0.0:8088"
+      resources:
+        requests:
+          cpu: 1
+          memoryInGb: 1.5
+      ports:
+      - port: 8088
+  - name: apiserver
+    properties:
+      image: testaciedu.azurecr.io/apiserver:latest
+      environmentVariables:
+        - name: "ASPNETCORE_URLS"
+          value: "http://0.0.0.0:8080"
+      resources:
+        requests:
+          cpu: 1
+          memoryInGb: 1.5
+      ports:
+      - port: 8080
+  imageRegistryCredentials:
+  - server: testaciedu.azurecr.io
+    username: testaciedu
+    password: 3h12ISURBOZMlpHlW+=J/hmuLpkhcacx        
+  osType: Linux
+  ipAddress:
+    type: Public
+    ports:
+    - protocol: tcp
+      port: '80'
+    - protocol: tcp
+      port: '443'
+tags: null
+type: Microsoft.ContainerInstance/containerGroups
