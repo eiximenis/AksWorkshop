@@ -9,6 +9,10 @@ spec:
   ports:
   - port: 80
     name: http
+    targetPort: http
+  - port: 81
+    name: grpc
+    targetPort: grpc
   selector:
     app: aksworksop
     component: basket

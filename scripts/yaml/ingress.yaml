@@ -1,5 +1,5 @@
 
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: aksworkshop
@@ -10,12 +10,8 @@ metadata:
     ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
-  tls:
-    - hosts:
-        - my.cluster.com
-      secretName: "" # Certificate secret name
   rules:
-    - host: my.host.com
+    - host: edu.a9b127c7b3fe44f2a9ef.westeurope.aksapp.io
       http:
         paths:
           - path: /order-api

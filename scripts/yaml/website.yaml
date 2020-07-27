@@ -1,8 +1,12 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: website
 spec:
+  selector:
+    matchLabels:
+      app: aksworksop
+      component: website 
   template:
     metadata:
       labels:
@@ -11,11 +15,13 @@ spec:
     spec:
       containers:
       - name: website
-        image: testeduacr.azurecr.io/website
+        image: workshopaks.azurecr.io/website
         imagePullPolicy: Always
-        env:
+        env: 
         - name: urls__basket
           value: http://basket
+        - name: urls__basketGrpc
+          value: http://basket:81
         - name: urls__catalog
           value: http://catalog
         - name: urls__order

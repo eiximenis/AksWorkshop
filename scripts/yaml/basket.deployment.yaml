@@ -1,8 +1,12 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: basket
+  name: basket  
 spec:
+  selector:
+    matchLabels:
+      app: aksworksop
+      component: basket 
   template:
     metadata:
       labels:
@@ -11,14 +15,21 @@ spec:
     spec:
       containers:
       - name: basket
-        image: testeduacr.azurecr.io/basket
+        image: workshopaks.azurecr.io/basket
         imagePullPolicy: Always
         env:
         - name: constr
           value: mongodb://mongo
         - name: PATH_BASE
           value: /basket-api
+        - name: GRPC_PORT
+          value: "5101"
+        - name: PORT
+          value: "5100"
         ports:
-        - containerPort: 80
-      imagePullSecrets:
-      - name: acr-key
+        - containerPort: 5100
+          name: http
+        - containerPort: 5101
+          name: grpc
+#      imagePullSecrets:
+#      - name: acr-key

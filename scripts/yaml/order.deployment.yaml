@@ -1,8 +1,12 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: order
 spec:
+  selector:
+    matchLabels:
+      app: aksworksop
+      component: order 
   template:
     metadata:
       labels:
@@ -11,7 +15,7 @@ spec:
     spec:
       containers:
       - name: order
-        image: testeduacr.azurecr.io/order
+        image: workshopaks.azurecr.io/order
         imagePullPolicy: Always
         env:
         - name: constr

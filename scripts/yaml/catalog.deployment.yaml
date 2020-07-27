@@ -1,17 +1,21 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: catalog
 spec:
+  selector:
+    matchLabels:
+      app: aksworksop
+      component: catalog 
   template:
     metadata:
       labels:
         app: aksworksop
         component: catalog
-    spec:
+    spec:    
       containers:
       - name: catalog
-        image: testeduacr.azurecr.io/catalog
+        image: workshopaks.azurecr.io/catalog
         imagePullPolicy: Always
         env:
         - name: constr
