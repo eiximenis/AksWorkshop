@@ -7,11 +7,17 @@ metadata:
     app: aksworksop
   annotations:
     kubernetes.io/ingress.class: addon-http-application-routing
+#    kubernetes.io/ingress.class: nginx
     ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    cert-manager.io/issuer: letsencrypt-staging
 spec:
+  tls:
+    - hosts:
+      - edu.a9b127c7b3fe44f2a9ef.westeurope.aksapp.io
+      secretName: edu-tls
   rules:
-    - host: edu.a9b127c7b3fe44f2a9ef.westeurope.aksapp.io
+    - host: edu.a9b127c7b3fe44f2a9ef.westeurope.aksapp.io       # DNS a usar 
       http:
         paths:
           - path: /order-api
@@ -21,7 +27,7 @@ spec:
           - path: /catalog-api
             backend:
               serviceName: catalog
-              servicePort: http   
+              servicePort: http     
           - path: /basket-api
             backend:
               serviceName: basket

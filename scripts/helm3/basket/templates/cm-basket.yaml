@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: basket
+data:
+  constr: {{ .Values.mongo.constr }}
+  PATH_BASE: /basket-api
+  GRPC_PORT: {{ .Values.deployment.grpcPort | quote }}
+  PORT: {{ .Values.deployment.port | quote }}
+

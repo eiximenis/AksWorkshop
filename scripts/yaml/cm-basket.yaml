@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: basket
+data:
+  constr: mongodb://mongo
+  PATH_BASE: /basket-api
+  GRPC_PORT: "5101"
+  PORT: "5100"
+

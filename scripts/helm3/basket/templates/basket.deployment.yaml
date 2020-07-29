@@ -15,15 +15,15 @@ spec:
     spec:
       containers:
       - name: basket
-        image: workshopaks.azurecr.io/basket
+        image: {{ .Values.image.registry }}/basket:{{ .Values.image.tag }}
         imagePullPolicy: Always
         envFrom:
           - configMapRef:
               name: basket
         ports:
-        - containerPort: 5100
+        - containerPort: {{ .Values.deployment.port }}
           name: http
-        - containerPort: 5101
+        - containerPort: {{ .Values.deployment.grpcPort }}
           name: grpc
 #      imagePullSecrets:
 #      - name: acr-key

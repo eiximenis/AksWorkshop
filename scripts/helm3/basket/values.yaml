@@ -1,0 +1,14 @@
+image:
+  registry: workshopaks.azurecr.io
+  tag: latest
+
+deployment:
+  port: 5100
+  grpcPort: 5101
+
+service:
+  port: 80
+  grpcPort: 81
+
+mongo:
+  constr: mongodb://mongo

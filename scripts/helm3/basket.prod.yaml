@@ -1,0 +1,6 @@
+image:
+  registry: workshopaks.azurecr.io
+  tag: v1.2.1
+
+mongo:
+  constr: mongodb://mongo-prod.mongox.com
